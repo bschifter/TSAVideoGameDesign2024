@@ -31,6 +31,12 @@ var Ball = function(config) {
     this.acceleration = 0.15 * mult;
     this.onLadder = false;
     this.name = config.name;
+    this.isFacingLeft = false;
+    this.isHeld = false;
+    this.isHolding = false;
+    this.holdingCountdown = 0;
+    this.isMovingRight = false;
+    this.isMovingLeft = false;
 };
 Ball.prototype = Object.create(thingsWithPhysics.prototype);
 
@@ -68,6 +74,7 @@ var lever = function(config) {
     this.gateWidth = config.gateWidth * mult;
     this.gateHeight = config.gateHeight * mult;
     this.isPressed = false;
+    this.isTimed = config.isTimed || false;
 }
 var Button = function (config) {
     this.buttonX = config.buttonX * mult;
@@ -104,9 +111,9 @@ var pauseButton = new Button({ buttonX: 375, buttonY: 20, buttonWidth: 20, butto
 
 var resumeButton = new Button({ buttonX: 60, buttonY: 220, buttonWidth: 80, buttonHeight: 20, color1: 4, color2: 255, color3: 0, isResumeButton: true });
 
-var restartButton = new Button({ buttonX: 60, buttonY: 220, buttonWidth: 80, buttonHeight: 20, color1: 4, color2: 255, color3: 0, isRestartButton: true });
+var restartButton = new Button({ buttonX: 160, buttonY: 220, buttonWidth: 80, buttonHeight: 20, color1: 4, color2: 255, color3: 0, isRestartButton: true });
 
-var mainMenuButton2 = new Button({ buttonX: 60, buttonY: 220, buttonWidth: 80, buttonHeight: 20, color1: 4, color2: 255, color3: 0, isMainMenuButton2: true });
+var mainMenuButton2 = new Button({ buttonX: 260, buttonY: 220, buttonWidth: 80, buttonHeight: 20, color1: 4, color2: 255, color3: 0, isMainMenuButton2: true });
 
 var firstLevelButton = new Button({ buttonX: 5, buttonY: 355, buttonWidth: 90, buttonHeight: 40, color1: 4, color2: 255, color3: 0, isFirstLevelButton: true });
 
@@ -133,7 +140,7 @@ var Platform = function (config) {
 Platform.prototype.draw = function () {
     if (this.canBreak === false) {
         if (this.canKill === false) {
-            fill(4, 255, 0);
+            fill(255, 255, 255);
             rect(this.x, this.y, this.width, this.height);
         }
         else {
@@ -163,16 +170,30 @@ var Money = function(config) {
 var Platform1 = new Platform({x: -1, y: 380, width: 401, height: 60});
 var Platform2 = new Platform({x: 50, y: 360, width: 150, height: 20});
 var Platform3 = new Platform({x: 200, y: 360, width: 150, height: 9});
+var Platform4 = new Platform({x: -1, y: 285, width: 60, height: 10});
+var Platform5 = new Platform({x: -1, y: 100, width: 60, height: 10});
+var Platform6 = new Platform({x: 50, y: 100, width: 10, height: 120});
+var Platform7 = new Platform({x: 100, y: 290, width: 70, height: 70});
+var Platform8 = new Platform({x: 160, y: 230, width: 10, height: 60});
+var Platform9 = new Platform({x: 280, y: 300, width: 10, height: 60});
+var Platform10 = new Platform({x: 220, y: 300, width: 60, height: 10});
+var Platform11 = new Platform({x: 220, y: 240, width: 10, height: 60});
+var Platform12 = new Platform({x: 280, y: 150, width: 120, height: 10});
+var Platform13 = new Platform({x: 300, y: 50, width: 10, height: 80});
+var Platform14 = new Platform({x: 200, y: 240, width: 20, height: 10});
+var Platform15 = new Platform({x: -1, y: 0, width: 402, height: 50});
 var breakPlatform1 = new Platform({x: 340, y: 369, width: 10, height: 11, canBreak: true});
-var breakPlatform2 = new Platform({x: 120, y: 350, width: 10, height: 10, canBreak: true});
+var breakPlatform2 = new Platform({x: 300, y: 140, width: 10, height: 10, canBreak: true});
+var breakPlatform3 = new Platform({x: 300, y: 130, width: 10, height: 10, canBreak: true});
 
-var Platform21 = new Platform({ x: 0, y: 340, width: 46, height: 60, canKill: false });
-var Platform22 = new Platform({ x: 280, y: 290, width: 60, height: 20, canMove: true });
-var Platform23 = new Platform({ x: 0, y: 240, width: 60, height: 20, canMove: true });
-var Platform24 = new Platform({ x: 175, y: 190, width: 60, height: 20, canMove: true });
-var Platform25 = new Platform({ x: 293, y: 140, width: 60, height: 20, canMove: true });
-var Platform26 = new Platform({ x: 78, y: 90, width: 60, height: 20, canMove: true });
-var killPlatform21 = new Platform({ x: 218, y: 40, width: 60, height: 20, canKill: true, canMove: true });
+var Platform21 = new Platform({x: -1, y: 380, width: 401, height: 60});
+var Platform22 = new Platform({ x: -1, y: 305, width: 200, height: 10});
+var Platform23 = new Platform({ x: 230, y: 305, width: 170, height: 10});
+var Platform24 = new Platform({ x: -1, y: 275, width: 111, height: 10});
+var Platform25 = new Platform({ x: 300, y: 230, width: 70, height: 10});
+var Platform26 = new Platform({ x: 310, y: 200, width: 100, height: 10});
+var breakPlatform21 = new Platform({x: 100, y: 295, width: 10, height: 10, canBreak: true});
+var breakPlatform22 = new Platform({x: 100, y: 285, width: 10, height: 10, canBreak: true});
 
 var Platform31 = new Platform({ x: 0, y: 380, width: 20, height: 20});
 var Platform32 = new Platform({ x: 163, y: 360, width: 60, height: 20, canKill: false, canMove: true });
@@ -193,36 +214,43 @@ var killPlatform35 = new Platform({ x: 82, y: 160, width: 353, height: 20, canKi
 var killPlatform36 = new Platform({ x: 0, y: 36, width: 353, height: 20, canKill: true });
 
 var platforms0 = [];
-var platforms1 = [Platform1, Platform2, Platform3, breakPlatform1, breakPlatform2];
+var platforms1 = [Platform1, Platform2, Platform3, Platform4, Platform5, Platform6, Platform7, Platform8, Platform9, Platform10, Platform15, Platform11, Platform12, Platform13, Platform14, breakPlatform1, breakPlatform2, breakPlatform3];
 
-var platforms2 = [Platform21, Platform22, Platform23, Platform24, Platform25, Platform26, killPlatform21];
+var platforms2 = [Platform21, Platform22, Platform23, Platform24, Platform25, Platform26, breakPlatform21, breakPlatform22];
 
 var platforms3 = [Platform31, Platform32, Platform33, Platform34, Platform35, Platform36, Platform37, Platform38, Platform39, Platform310, Platform311, killPlatform31, killPlatform32, killPlatform33, killPlatform34, killPlatform35, killPlatform36];
 
-var ladder1 = new Ladder({x: 268, y: 295});
+var ladder1 = new Ladder({x: 60, y: 295});
+var ladder2 = new Ladder({x: 250, y: 235});
+var ladder3 = new Ladder({x: 250, y: 157});
+
+var ladder21 = new Ladder({x: 200, y: 315});
+
 var ladders0 = [];
-var ladders1 = [ladder1];
+var ladders1 = [ladder1, ladder2, ladder3];
+var ladders2 = [ladder21];
 
 var Money1 = new Money({x: 210, y: 375});
-var Money2 = new Money({x: 70, y: 300});
-var Money3 = new Money({x: 328, y: 101});
+var Money2 = new Money({x: 20, y: 210});
+var Money3 = new Money({x: 200, y: 200});
 
 var moneys0 = [];
 var moneys1 = [Money1, Money2, Money3];
 
-var lever1 = new lever({leverX: 170, leverY: 358, gateX: 305, gateY: 310, gateWidth: 10, gateHeight: 50});
+var lever1 = new lever({leverX: 10, leverY: 283, gateX: 50, gateY: 0, gateWidth: 10, gateHeight: 100});
+var lever2 = new lever({leverX: 380, leverY: 148, gateX: 220, gateY: 300, gateWidth: 10, gateHeight: 60});
 
 var levers0 = [];
-var levers1 = [lever1];
+var levers1 = [lever1, lever2];
 
-var box1 = new box({x: 160, y: 100, width: 20, height: 20});
+var box1 = new box({x: 340, y: 230, width: 20, height: 20});
 
 var boxes0 = [];
-var boxes1 = [box1];
+var boxes2 = [box1];
 
 var homeScreen = new Level({platforms: platforms0, ladders: ladders0, moneys: moneys0, boxes: boxes0, levers: levers0});
-var level1 = new Level({platforms: platforms1, ladders: ladders1, moneys: moneys1, boxes: boxes1, levers: levers1, blueX: 10, blueY: 340, redX: 60, redY: 340, yellowX: 100, yellowY: 340, greenX: 150, greenY: 340, endX: 200, endY: 325, endWidth: 37, endHeight: 37});
-var level2 = new Level({platforms: platforms2, ladders: ladders0, moneys: moneys0, boxes: boxes0, levers: levers0});
+var level1 = new Level({platforms: platforms1, ladders: ladders1, moneys: moneys1, boxes: boxes0, levers: levers1, blueX: 370, blueY: 380, redX: 20, redY: 100, yellowX: 20, yellowY: 380, greenX: 340, greenY: 140, endX: 240, endY: 330, endWidth: 30, endHeight: 35});
+var level2 = new Level({platforms: platforms2, ladders: ladders2, moneys: moneys0, boxes: boxes2, levers: levers0, blueX: 360, blueY: 380, redX: 40, redY: 300, greenX: 360, greenY: 300});
 var level3 = new Level({platforms: platforms3, ladders: ladders0, moneys: moneys0, boxes: boxes0, levers: levers0});
 var endScreen = new Level({platforms: platforms0, ladders: ladders0, moneys: moneys0, boxes: boxes0, levers: levers0});
 var controls = new Level({platforms: platforms0, ladders: ladders0, moneys: moneys0, boxes: boxes0, levers: levers0});
@@ -247,11 +275,12 @@ Ladder.prototype.checkBall = function(ball) {
 };
 
 lever.prototype.checkBall = function(ball) {
-    if (ball.x + ball.width > this.leverX && ball.x < this.leverX + 26 && ball.y > this.leverY - 18 && ball.y < this.leverY) {
-        return true;
-    }
-    else {
-        return false;
+    if (ball.name === "Yellow") {
+        if (ball.x + ball.width > this.leverX && ball.x < this.leverX + 26 && ball.y > this.leverY - 18 && ball.y < this.leverY) {
+            return true;
+        } else {
+            return false;
+        }
     }
 };
 
@@ -286,9 +315,9 @@ Level.drawTextAndEnd = function () {
     if (currentLevel === 1) {
         fill(0, 0, 0);
         textSize(12 * mult * 1.1)
-        text("Level 1: Teamwork", 8 * mult, 259 * mult, 114 * mult, 100 * mult);
-        text("This Kills You!", 130 * mult, 292 * mult, 100 * mult, 100 * mult);
-        text("Touch the Brown to Finish the Level", 170 * mult, 240 * mult, 211 * mult, 100 * mult);
+        //text("Level 1: Teamwork", 8 * mult, 259 * mult, 114 * mult, 100 * mult);
+        //text("This Kills You!", 130 * mult, 292 * mult, 100 * mult, 100 * mult);
+        //text("Touch the Brown to Finish the Level", 170 * mult, 240 * mult, 211 * mult, 100 * mult);
     }
     if (currentLevel === 2) {
         fill(0, 0, 0);
@@ -411,13 +440,40 @@ Button.prototype.draw = function () {
             }
         }
     }
-
-    if (this.isResumeButton === true) {
-        if (gameIsPaused === true) {
+    if (gameIsPaused === true) {
+        if (this.isResumeButton === true) {
             fill(this.color1, this.color2, this.color3);
             rect(this.buttonX, this.buttonY, this.buttonWidth, this.buttonHeight);
             fill(0, 0, 0);
             text("Resume", 140, 450, 800, 100);
+            if (mouseX > this.buttonX && mouseX < this.buttonX + this.buttonWidth && mouseY > this.buttonY && mouseY < this.buttonY + this.buttonHeight) {
+                this.color1 = 37;
+                this.color2 = 130;
+            }
+            else {
+                this.color1 = 4;
+                this.color2 = 255;
+            }
+        }
+        if (this.isMainMenuButton2 === true) {
+            fill(this.color1, this.color2, this.color3);
+            rect(this.buttonX, this.buttonY, this.buttonWidth, this.buttonHeight);
+            fill(0, 0, 0);
+            text("Main Menu", 520, 450, 800, 100);
+            if (mouseX > this.buttonX && mouseX < this.buttonX + this.buttonWidth && mouseY > this.buttonY && mouseY < this.buttonY + this.buttonHeight) {
+                this.color1 = 37;
+                this.color2 = 130;
+            }
+            else {
+                this.color1 = 4;
+                this.color2 = 255;
+            }
+        }
+        if (this.isRestartButton === true) {
+            fill(this.color1, this.color2, this.color3);
+            rect(this.buttonX, this.buttonY, this.buttonWidth, this.buttonHeight);
+            fill(0, 0, 0);
+            text("Restart", 350, 450, 800, 100);
             if (mouseX > this.buttonX && mouseX < this.buttonX + this.buttonWidth && mouseY > this.buttonY && mouseY < this.buttonY + this.buttonHeight) {
                 this.color1 = 37;
                 this.color2 = 130;
@@ -486,6 +542,13 @@ Button.prototype.applyMouse = function () {
         if (this.isResumeButton === true) {
             if (currentLevel > 0 && gameIsPaused === true) {
                 gameIsPaused = false;
+            }
+        }
+
+        if (this.isMainMenuButton2 === true) {
+            if (currentLevel > 0 && gameIsPaused === true) {
+                gameIsPaused = false;
+                currentLevel = 0;
             }
         }
     }
@@ -702,17 +765,42 @@ Ball.prototype.applyIntersect4 = function(box) {
         this.vy = 0;
     }
 };
+Ball.prototype.applyHold = function(otherBall) {
+        if (keys.includes(DOWN) && this.y + this.height/2 > otherBall.y && this.y + this.height/2 < otherBall.y + otherBall.height && this.x + this.width > otherBall.x && this.x < otherBall.x + otherBall.width) {
+            otherBall.isHeld = true;
+            this.isHolding = true;
+        } 
+        
+    if (otherBall.isHeld === true) {
+        otherBall.x = this.x;
+        otherBall.y = this.y - otherBall.width;
+        if (keys.includes(UP)) {
+            otherBall.isHeld = false;
+            otherBall.vx += this.vx * 2;
+            otherBall.vy -= 6 * mult;
+            this.isHolding = false;
+            this.holdingCountdown = 50;
+        }
+    }
+    if (this.holdingCountdown > 0) {
+        this.holdingCountdown -= 1;
+    }
+};
 //Movement
-Ball.prototype.applyUserInput = function (platforms, boxes) {
+Ball.prototype.applyUserInput = function (platforms, boxes, players) {
     if (this.name === "Blue") {
         if (keys.includes(68)) {
+            this.isFacingLeft = false;
             this.ax = this.acceleration;
         }
         else if (keys.includes(65)) {
+            this.isFacingLeft = true;
             this.ax = -this.acceleration;
         }
-        else {
-            this.ax = 0;
+        else if (this.isMovingRight === false) {
+            if (this.isMovingLeft === false) {
+                this.ax = 0;
+            }
         }
 
         var jump = false;
@@ -747,22 +835,16 @@ Ball.prototype.applyUserInput = function (platforms, boxes) {
     
     if (this.name === "Red") {
         if (keys.includes(72)) {
+            this.isFacingLeft = false;
             this.ax = this.acceleration;
         }
         else if (keys.includes(70)) {
+            this.isFacingLeft = true;
             this.ax = -this.acceleration;
         }
-        else {
-            this.ax = 0;
-        }
-        
-        if (keys.includes(84) && this.onPlatform === true) {
-            jump = true;
-        }
-
-        for (var i = 0; i < boxes.length; i++) {
-            if (keys.includes(84) && this.y === boxes[i].y - this.height && this.x + this.width/2 > boxes[i].x && this.x + this.width/2 < boxes[i].x + boxes[i].width) {
-                jump = true;
+        else if (this.isMovingRight === false) {
+            if (this.isMovingLeft === false) {
+                this.ax = 0;
             }
         }
     
@@ -779,13 +861,17 @@ Ball.prototype.applyUserInput = function (platforms, boxes) {
     
     if (this.name === "Yellow") {
         if (keys.includes(76)) {
+            this.isFacingLeft = false;
             this.ax = this.acceleration;
         }
         else if (keys.includes(74)) {
+            this.isFacingLeft = true;
             this.ax = -this.acceleration;
         }
-        else {
-            this.ax = 0;
+        else if (this.isMovingRight === false) {
+            if (this.isMovingLeft === false) {
+                this.ax = 0;
+            }
         }
         
         if (keys.includes(73) && this.onPlatform === true) {
@@ -811,17 +897,22 @@ Ball.prototype.applyUserInput = function (platforms, boxes) {
     
     if (this.name === "Green") {
         if (keys.includes(RIGHT)) {
+            this.isFacingLeft = false;
             this.ax = this.acceleration;
         }
         else if (keys.includes(LEFT)) {
+            this.isFacingLeft = true;
             this.ax = -this.acceleration;
         }
-        else {
-            this.ax = 0;
+        else if (this.isMovingRight === false) {
+            if (this.isMovingLeft === false) {
+                this.ax = 0;
+            }
         }
-        
         if (keys.includes(UP) && this.onPlatform === true) {
-            jump = true;
+            if (this.isHolding === false && this.holdingCountdown === 0) {
+                jump = true;
+            }
         }
         
         for (var i = 0; i < boxes.length; i++) {
@@ -838,6 +929,10 @@ Ball.prototype.applyUserInput = function (platforms, boxes) {
             if (keys.includes(DOWN)) {
                 this.vy = 2;
             }
+        }
+
+        for (var b = 0; b < players.length - 1; b++) {
+            this.applyHold(players[b]);
         }
     }
 
@@ -1006,7 +1101,6 @@ Ball.prototype.draw = function () {
 };
 
 draw = function () {
-
     var level = levels[currentLevel];
     var platforms = level.platforms;
     var moneys = level.moneys;
@@ -1060,7 +1154,7 @@ draw = function () {
         for (var i = 0; i < boxes.length; i++) {
             boxes[i].ax = 0;
             for (var b = 0; b < players.length; b++) {
-                    players[b].applyIntersect4(boxes[i]);
+                players[b].applyIntersect4(boxes[i]);
             }
         }
 
@@ -1080,9 +1174,11 @@ draw = function () {
         }
 
         for (var b = 0; b < players.length; b++) {
-            players[b].applyUserInput(platforms, boxes);
+            if (players[b].isHeld === false) {
+                players[b].applyUserInput(platforms, boxes, players);
+            }
             players[b].applyBorders();
-            if (players[b].onLadder === false) {
+            if (players[b].onLadder === false && players[b].isHeld === false) {
                 players[b].applyGravity();
             }
             players[b].applyAcceleration();
@@ -1102,7 +1198,7 @@ draw = function () {
         }
     
     }
-    background(189, 253, 255);
+    background(199, 199, 199);
     Level.drawTextAndEnd();
     
     for (var i = 0; i < levers.length; i++) {
