@@ -74,7 +74,9 @@ var lever = function(config) {
     this.gateWidth = config.gateWidth * mult;
     this.gateHeight = config.gateHeight * mult;
     this.isPressed = false;
-    this.isTimed = config.isTimed || false;
+    this.timeOut = config.timeOut || 0;
+    this.expirationTime = 0;
+    this.color = config.color;
 }
 var Button = function (config) {
     this.buttonX = config.buttonX * mult;
@@ -144,7 +146,7 @@ Platform.prototype.draw = function () {
             rect(this.x, this.y, this.width, this.height);
         }
         else {
-            fill(255, 36, 36);
+            fill(171, 0, 0);
             rect(this.x, this.y, this.width, this.height);
         }
     } else if (this.canBreak === true) {
@@ -187,36 +189,47 @@ var breakPlatform2 = new Platform({x: 300, y: 140, width: 10, height: 10, canBre
 var breakPlatform3 = new Platform({x: 300, y: 130, width: 10, height: 10, canBreak: true});
 
 var Platform21 = new Platform({x: -1, y: 380, width: 401, height: 60});
-var Platform22 = new Platform({ x: -1, y: 305, width: 200, height: 10});
-var Platform23 = new Platform({ x: 230, y: 305, width: 170, height: 10});
+var Platform22 = new Platform({ x: -1, y: 305, width: 160, height: 10});
+var Platform23 = new Platform({ x: 190, y: 305, width: 210, height: 10});
 var Platform24 = new Platform({ x: -1, y: 275, width: 111, height: 10});
-var Platform25 = new Platform({ x: 300, y: 230, width: 70, height: 10});
-var Platform26 = new Platform({ x: 310, y: 200, width: 100, height: 10});
+var Platform25 = new Platform({ x: 300, y: 200, width: 70, height: 10});
+var Platform26 = new Platform({ x: 310, y: 170, width: 100, height: 10});
+var Platform27 = new Platform({ x: 310, y: 170, width: 10, height: 20});
+var Platform28 = new Platform({ x: 100, y: 220, width: 50, height: 10});
+var Platform29 = new Platform({ x: 200, y: 100, width: 200, height: 10});
+var Platform210 = new Platform({ x: 240, y: -1, width: 10, height: 81});
+var Platform211 = new Platform({ x: 0, y: 100, width: 50, height: 10});
+var Platform212 = new Platform({ x: 300, y: 315, width: 10, height: 21});
+var Platform213 = new Platform({ x: 250, y: 326, width: 50, height: 10});
 var breakPlatform21 = new Platform({x: 100, y: 295, width: 10, height: 10, canBreak: true});
 var breakPlatform22 = new Platform({x: 100, y: 285, width: 10, height: 10, canBreak: true});
+var breakPlatform23 = new Platform({x: 240, y: 90, width: 10, height: 10, canBreak: true});
+var breakPlatform24 = new Platform({x: 240, y: 80, width: 10, height: 10, canBreak: true});
+var killPlatform21 = new Platform({x: -1, y: 265, width: 111, height: 10, canKill: true});
+var killPlatform22 = new Platform({x: -1, y: 265, width: 111, height: 10, canKill: true});
 
-var Platform31 = new Platform({ x: 0, y: 380, width: 20, height: 20});
-var Platform32 = new Platform({ x: 163, y: 360, width: 60, height: 20, canKill: false, canMove: true });
-var Platform33 = new Platform({ x: 380, y: 320, width: 20, height: 20, canKill: false });
-var Platform34 = new Platform({ x: 0, y: 260, width: 353, height: 20, canKill: false });
-var Platform35 = new Platform({ x: 0, y: 220, width: 20, height: 20, canKill: false });
-var Platform36 = new Platform({ x: 52, y: 160, width: 30, height: 20, canKill: false });
-var Platform37 = new Platform({ x: 155, y: 140, width: 30, height: 20, canKill: false });
-var Platform38 = new Platform({ x: 280, y: 140, width: 30, height: 20, canKill: false });
-var Platform39 = new Platform({ x: 380, y: 90, width: 20, height: 20, canKill: false });
-var Platform310 = new Platform({ x: 212, y: 26, width: 60, height: 10, canKill: false, canMove: true });
-var Platform311 = new Platform({ x: 0, y: 26, width: 30, height: 10, canKill: false });
-var killPlatform31 = new Platform({ x: 299, y: 340, width: 20, height: 20, canKill: true, canMove: true });
-var killPlatform32 = new Platform({ x: 116, y: 340, width: 20, height: 20, canKill: true, canMove: true });
-var killPlatform33 = new Platform({ x: 299, y: 240, width: 20, height: 20, canKill: true, canMove: true });
-var killPlatform34 = new Platform({ x: 116, y: 240, width: 20, height: 20, canKill: true, canMove: true });
-var killPlatform35 = new Platform({ x: 82, y: 160, width: 353, height: 20, canKill: true });
-var killPlatform36 = new Platform({ x: 0, y: 36, width: 353, height: 20, canKill: true });
+var Platform31 = new Platform({ x: -1, y: 380, width: 401, height: 10});
+var Platform32 = new Platform({ x: -1, y: 305, width: 10, height: 10});
+var Platform33 = new Platform({ x: 40, y: 305, width: 370, height: 10});
+var Platform34 = new Platform({ x: 0, y: 260, width: 353, height: 20});
+var Platform35 = new Platform({ x: 0, y: 220, width: 20, height: 20});
+var Platform36 = new Platform({ x: 52, y: 160, width: 30, height: 20});
+var Platform37 = new Platform({ x: 155, y: 140, width: 30, height: 20});
+var Platform38 = new Platform({ x: 280, y: 140, width: 30, height: 20});
+var Platform39 = new Platform({ x: 380, y: 90, width: 20, height: 20});
+var Platform310 = new Platform({ x: 212, y: 26, width: 60, height: 10});
+var Platform311 = new Platform({ x: 0, y: 26, width: 30, height: 10});
+var killPlatform31 = new Platform({ x: 299, y: 340, width: 20, height: 20});
+var killPlatform32 = new Platform({ x: 116, y: 340, width: 20, height: 20});
+var killPlatform33 = new Platform({ x: 299, y: 340, width: 20, height: 20});
+var killPlatform34 = new Platform({ x: 116, y: 340, width: 20, height: 20});
+var killPlatform35 = new Platform({ x: 82, y: 160, width: 353, height: 20});
+var killPlatform36 = new Platform({ x: 0, y: 36, width: 353, height: 20});
 
 var platforms0 = [];
 var platforms1 = [Platform1, Platform2, Platform3, Platform4, Platform5, Platform6, Platform7, Platform8, Platform9, Platform10, Platform15, Platform11, Platform12, Platform13, Platform14, breakPlatform1, breakPlatform2, breakPlatform3];
 
-var platforms2 = [Platform21, Platform22, Platform23, Platform24, Platform25, Platform26, breakPlatform21, breakPlatform22];
+var platforms2 = [Platform21, Platform22, Platform23, Platform24, Platform25, Platform26, Platform27, Platform28, Platform29, Platform210, Platform211, Platform212, Platform213, breakPlatform21, breakPlatform22, breakPlatform23, breakPlatform24, killPlatform21, killPlatform22];
 
 var platforms3 = [Platform31, Platform32, Platform33, Platform34, Platform35, Platform36, Platform37, Platform38, Platform39, Platform310, Platform311, killPlatform31, killPlatform32, killPlatform33, killPlatform34, killPlatform35, killPlatform36];
 
@@ -224,34 +237,48 @@ var ladder1 = new Ladder({x: 60, y: 295});
 var ladder2 = new Ladder({x: 250, y: 235});
 var ladder3 = new Ladder({x: 250, y: 157});
 
-var ladder21 = new Ladder({x: 200, y: 315});
+var ladder21 = new Ladder({x: 160, y: 315});
+
+var ladder31 = new Ladder({x: 10, y: 315});
 
 var ladders0 = [];
 var ladders1 = [ladder1, ladder2, ladder3];
 var ladders2 = [ladder21];
+var ladders3 = [ladder31];
 
 var Money1 = new Money({x: 210, y: 375});
 var Money2 = new Money({x: 20, y: 210});
 var Money3 = new Money({x: 200, y: 200});
 
+var Money21 = new Money({x: 290, y: 321});
+var Money22 = new Money({x: 25, y: 80});
+var Money23 = new Money({x: 385, y: 120});
+
 var moneys0 = [];
 var moneys1 = [Money1, Money2, Money3];
+var moneys2 = [Money21, Money22, Money23]
 
-var lever1 = new lever({leverX: 10, leverY: 283, gateX: 50, gateY: 0, gateWidth: 10, gateHeight: 100});
-var lever2 = new lever({leverX: 380, leverY: 148, gateX: 220, gateY: 300, gateWidth: 10, gateHeight: 60});
+var lever1 = new lever({leverX: 10, leverY: 283, gateX: 50, gateY: 0, gateWidth: 10, gateHeight: 100, color: "Blue", timeOut: 0});
+var lever2 = new lever({leverX: 380, leverY: 148, gateX: 220, gateY: 300, gateWidth: 10, gateHeight: 60, color: "Red", timeOut: 5000});
+
+var lever21 = new lever({leverX: 340, leverY: 98, gateX: 340, gateY: 310, gateWidth: 10, gateHeight: 80, color: "Blue"});
+var lever22 = new lever({leverX: 310, leverY: 98, gateX: 300, gateY: 210, gateWidth: 10, gateHeight: 95, color: "Red"});
+var lever23 = new lever({leverX: 280, leverY: 98, gateX: 140, gateY: -1, gateWidth: 10, gateHeight: 221, color: "Yellow"});
+var lever24 = new lever({leverX: 10, leverY: 303, gateX: 80, gateY: 315, gateWidth: 10, gateHeight: 221, color: "Green", timeOut: 5000});
 
 var levers0 = [];
 var levers1 = [lever1, lever2];
+var levers2 = [lever21, lever22, lever23, lever24];
 
-var box1 = new box({x: 340, y: 230, width: 20, height: 20});
+var box1 = new box({x: 340, y: 200, width: 40, height: 40});
 
 var boxes0 = [];
 var boxes2 = [box1];
 
 var homeScreen = new Level({platforms: platforms0, ladders: ladders0, moneys: moneys0, boxes: boxes0, levers: levers0});
 var level1 = new Level({platforms: platforms1, ladders: ladders1, moneys: moneys1, boxes: boxes0, levers: levers1, blueX: 370, blueY: 380, redX: 20, redY: 100, yellowX: 20, yellowY: 380, greenX: 340, greenY: 140, endX: 240, endY: 330, endWidth: 30, endHeight: 35});
-var level2 = new Level({platforms: platforms2, ladders: ladders2, moneys: moneys0, boxes: boxes2, levers: levers0, blueX: 360, blueY: 380, redX: 40, redY: 300, greenX: 360, greenY: 300});
-var level3 = new Level({platforms: platforms3, ladders: ladders0, moneys: moneys0, boxes: boxes0, levers: levers0});
+var level2 = new Level({platforms: platforms2, ladders: ladders2, moneys: moneys2, boxes: boxes2, levers: levers2, blueX: 370, blueY: 380, redX: 40, redY: 300, yellowX: 185, yellowY: 50, greenX: 360, greenY: 300, endX: 20, endY: 350, endWidth: 30, endHeight: 35});
+var level3 = new Level({platforms: platforms3, ladders: ladders3, moneys: moneys0, boxes: boxes0, levers: levers0, blueX: 20, blueY: 380});
 var endScreen = new Level({platforms: platforms0, ladders: ladders0, moneys: moneys0, boxes: boxes0, levers: levers0});
 var controls = new Level({platforms: platforms0, ladders: ladders0, moneys: moneys0, boxes: boxes0, levers: levers0});
 var stages = new Level({platforms: platforms0, ladders: ladders0, moneys: moneys0, boxes: boxes0, levers: levers0});
@@ -284,20 +311,29 @@ lever.prototype.checkBall = function(ball) {
     }
 };
 
-Level.applyChangeInLevels = function (ball) {
-    if (ball.x + ball.width/2 > levels[currentLevel].endX && ball.x + ball.width/2 < levels[currentLevel].endX + levels[currentLevel].endWidth && ball.y + ball.width/2 > levels[currentLevel].endY && ball.y + ball.width/2 < levels[currentLevel].endY + levels[currentLevel].endHeight) {
-        currentLevel++;
-        blueBall.x = levels[currentLevel].blueX;
-        blueBall.y = levels[currentLevel].blueY;
-        redBall.x = levels[currentLevel].redX;
-        redBall.y = levels[currentLevel].redY;
-        yellowBall.x = levels[currentLevel].yellowX;
-        yellowBall.y = levels[currentLevel].yellowY;
-        greenBall.x = levels[currentLevel].greenX;
-        greenBall.y = levels[currentLevel].greenY;
+Level.applyChangeInLevels = function (players) {
+    var amountOfPlayers = 0;
+    for (i = 0; i < players.length; i++) {
+        if (win === 3 && players[i].x + players[i].width/2 > levels[currentLevel].endX && players[i].x + players[i].width/2 < levels[currentLevel].endX + levels[currentLevel].endWidth && players[i].y + players[i].width/2 > levels[currentLevel].endY && players[i].y + players[i].width/2 < levels[currentLevel].endY + levels[currentLevel].endHeight) {
+            amountOfPlayers += 1;
+            if (amountOfPlayers === 4) {
+                currentLevel++;
+                blueBall.x = levels[currentLevel].blueX;
+                blueBall.y = levels[currentLevel].blueY;
+                redBall.x = levels[currentLevel].redX;
+                redBall.y = levels[currentLevel].redY;
+                yellowBall.x = levels[currentLevel].yellowX * mult;
+                yellowBall.y = levels[currentLevel].yellowY * mult;
+                greenBall.x = levels[currentLevel].greenX;
+                greenBall.y = levels[currentLevel].greenY;
+                
+                players[i].vx = 0;
+                players[i].vy = 0;
 
-        ball.vx = 0;
-        ball.vy = 0;
+                amountOfPlayer = 0;
+                win = 0;
+            }
+        }
     }
 };
 
@@ -777,7 +813,7 @@ Ball.prototype.applyHold = function(otherBall) {
         if (keys.includes(UP)) {
             otherBall.isHeld = false;
             otherBall.vx += this.vx * 2;
-            otherBall.vy -= 6 * mult;
+            otherBall.vy -= 8 * mult;
             this.isHolding = false;
             this.holdingCountdown = 50;
         }
@@ -944,7 +980,7 @@ Ball.prototype.applyUserInput = function (platforms, boxes, players) {
     }
 };
 
-Ball.prototype.applyBorders = function () {
+thingsWithPhysics.prototype.applyBorders = function () {
     if (this.x < 0) {
         this.x = 0;
         this.vx = 0;
@@ -1059,13 +1095,20 @@ Money.prototype.draw = function() {
 };
 lever.prototype.draw = function() {
     if (this.isPressed === false) {
-        fill(255, 255, 255);
+        if (this.color === "Red") {
+            fill(255, 0, 0);
+        } else if (this.color === "Blue") {
+            fill(0, 0, 255);
+        } else if (this.color === "Yellow") {
+            fill(255, 255, 0);
+        } else if (this.color === "Green") {
+            fill(0, 255, 0);
+        }
+        rect(this.gateX, this.gateY, this.gateWidth, this.gateHeight);
+
         rect(this.leverX + 3, this.leverY - 7, 20, 10, 30);
         fill(100, 100, 100);
         rect(this.leverX, this.leverY, 26, 5, 20);
-
-        fill(255, 255, 255);
-        rect(this.gateX, this.gateY, this.gateWidth, this.gateHeight);
     } else {
         fill(150, 150, 150);
         rect(this.leverX + 3, this.leverY - 2, 20, 10, 30);
@@ -1110,23 +1153,29 @@ draw = function () {
     var onLadder = false;
     
     if (gameIsPaused === false) {
-        for (var i = 0; i < ladders.length; i++) {
-            for (var b = 0; b < players.length; b++) {
+        for (var b = 0; b < players.length; b++) {
+            players[b].onLadder = false;
+            for (var i = 0; i < ladders.length; i++) {
                 if (ladders[i].checkBall(players[b])) {
                     players[b].onLadder = true;
-                }
-                else {
-                    players[b].onLadder = false;
                 }
             }
         }
         
         for (var i = 0; i < levers.length; i++) {
-            levers[i].isPressed = false;
+            if (levers[i].expirationTime === 0) {
+                levers[i].isPressed = false;
+            }
+            var now = Date.now();
             for (var b = 0; b < players.length; b++) {
                 if (levers[i].checkBall(players[b])) {
                     levers[i].isPressed = true;
+                    levers[i].expirationTime = now + levers[i].timeOut;
                 }
+            }
+            if (levers[i].expirationTime !== 0 && levers[i].expirationTime < now) {
+                levers[i].isPressed = false;
+                levers[i].expirationTime = 0;
             }
         }
         
@@ -1184,14 +1233,16 @@ draw = function () {
             players[b].applyAcceleration();
             players[b].applyDrag();
             players[b].applyVelocity();
-
-            Level.applyChangeInLevels(players[b]);
         }
+
+        Level.applyChangeInLevels(players);
+
         for (var b = 0; b < boxes.length; b++) {
             boxes[b].applyGravity();
             boxes[b].applyAcceleration();
             boxes[b].applyDrag();
             boxes[b].applyVelocity();
+            boxes[b].applyBorders();
         }
         for (var i = 0; i < platforms.length; i++) {
             platforms[i].applyMovement();
