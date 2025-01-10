@@ -201,6 +201,7 @@ var Platform210 = new Platform({ x: 240, y: -1, width: 10, height: 81});
 var Platform211 = new Platform({ x: 0, y: 100, width: 50, height: 10});
 var Platform212 = new Platform({ x: 300, y: 315, width: 10, height: 21});
 var Platform213 = new Platform({ x: 250, y: 326, width: 50, height: 10});
+var Platform214 = new Platform({x: -1, y: 0, width: 402, height: 50});
 var breakPlatform21 = new Platform({x: 100, y: 295, width: 10, height: 10, canBreak: true});
 var breakPlatform22 = new Platform({x: 100, y: 285, width: 10, height: 10, canBreak: true});
 var breakPlatform23 = new Platform({x: 240, y: 90, width: 10, height: 10, canBreak: true});
@@ -211,27 +212,59 @@ var killPlatform22 = new Platform({x: -1, y: 265, width: 111, height: 10, canKil
 var Platform31 = new Platform({ x: -1, y: 380, width: 401, height: 10});
 var Platform32 = new Platform({ x: -1, y: 305, width: 10, height: 10});
 var Platform33 = new Platform({ x: 40, y: 305, width: 370, height: 10});
-var Platform34 = new Platform({ x: 0, y: 260, width: 353, height: 20});
-var Platform35 = new Platform({ x: 0, y: 220, width: 20, height: 20});
-var Platform36 = new Platform({ x: 52, y: 160, width: 30, height: 20});
-var Platform37 = new Platform({ x: 155, y: 140, width: 30, height: 20});
-var Platform38 = new Platform({ x: 280, y: 140, width: 30, height: 20});
-var Platform39 = new Platform({ x: 380, y: 90, width: 20, height: 20});
-var Platform310 = new Platform({ x: 212, y: 26, width: 60, height: 10});
-var Platform311 = new Platform({ x: 0, y: 26, width: 30, height: 10});
-var killPlatform31 = new Platform({ x: 299, y: 340, width: 20, height: 20});
-var killPlatform32 = new Platform({ x: 116, y: 340, width: 20, height: 20});
-var killPlatform33 = new Platform({ x: 299, y: 340, width: 20, height: 20});
-var killPlatform34 = new Platform({ x: 116, y: 340, width: 20, height: 20});
-var killPlatform35 = new Platform({ x: 82, y: 160, width: 353, height: 20});
-var killPlatform36 = new Platform({ x: 0, y: 36, width: 353, height: 20});
+var Platform34 = new Platform({ x: 110, y: 70, width: 60, height: 10});
+var Platform35 = new Platform({ x: 100, y: 0, width: 10, height: 225});
+var Platform36 = new Platform({ x: 110, y: 50, width: 10, height: 20});
+var Platform37 = new Platform({ x: 200, y: 70, width: 90, height: 10});
+var Platform38 = new Platform({ x: 110, y: 140, width: 60, height: 10});
+var Platform39 = new Platform({ x: 110, y: 215, width: 120, height: 10});
+var Platform310 = new Platform({ x: 200, y: 140, width: 80, height: 10});
+var Platform311 = new Platform({ x: 320, y: 140, width: 50, height: 10});
+var Platform313 = new Platform({ x: 320, y: 215, width: 80, height: 10});
+var Platform314 = new Platform({ x: 320, y: 0, width: 10, height: 140});
+var Platform315 = new Platform({ x: 280, y: 80, width: 10, height: 145});
+var Platform316 = new Platform({ x: -1, y: 215, width: 70, height: 10});
+var Platform317 = new Platform({ x: 360, y: 70, width: 20, height: 10});
+var Platform318 = new Platform({ x: 360, y: 150, width: 10, height: 55});
+var Platform319 = new Platform({ x: 320, y: 225, width: 50, height: 69});
+var Platform312 = new Platform({x: -1, y: 0, width: 402, height: 49});
+var breakPlatform31 = new Platform({x: 150, y: 60, width: 10, height: 10, canBreak: true});
+var breakPlatform32 = new Platform({x: 360, y: 205, width: 10, height: 10, canBreak: true});
+var breakPlatform33 = new Platform({x: 0, y: 185, width: 10, height: 10, canBreak: true});
+var breakPlatform34 = new Platform({x: 10, y: 185, width: 10, height: 10, canBreak: true});
+var breakPlatform35 = new Platform({x: 20, y: 185, width: 10, height: 10, canBreak: true});
+var breakPlatform36 = new Platform({x: 30, y: 185, width: 10, height: 10, canBreak: true});
+var breakPlatform37 = new Platform({x: 40, y: 185, width: 10, height: 10, canBreak: true});
+var breakPlatform38 = new Platform({x: 50, y: 185, width: 10, height: 10, canBreak: true});
+var breakPlatform39 = new Platform({x: 20, y: 175, width: 10, height: 10, canBreak: true});
+var breakPlatform310 = new Platform({x: 30, y: 175, width: 10, height: 10, canBreak: true});
+var breakPlatform311 = new Platform({x: 40, y: 175, width: 10, height: 10, canBreak: true});
+var breakPlatform312 = new Platform({x: 50, y: 175, width: 10, height: 10, canBreak: true});
+var breakPlatform313 = new Platform({x: 0, y: 165, width: 10, height: 10, canBreak: true});
+var breakPlatform314 = new Platform({x: 10, y: 165, width: 10, height: 10, canBreak: true});
+var breakPlatform315 = new Platform({x: 20, y: 165, width: 10, height: 10, canBreak: true});
+var breakPlatform316 = new Platform({x: 30, y: 165, width: 10, height: 10, canBreak: true});
+var breakPlatform317 = new Platform({x: 40, y: 165, width: 10, height: 10, canBreak: true});
+var breakPlatform318 = new Platform({x: 50, y: 165, width: 10, height: 10, canBreak: true});
+var breakPlatform319 = new Platform({x: 0, y: 155, width: 10, height: 10, canBreak: true});
+var breakPlatform320 = new Platform({x: 10, y: 155, width: 10, height: 10, canBreak: true});
+var breakPlatform321 = new Platform({x: 20, y: 155, width: 10, height: 10, canBreak: true});
+var breakPlatform322 = new Platform({x: 30, y: 155, width: 10, height: 10, canBreak: true});
+var breakPlatform323 = new Platform({x: 40, y: 155, width: 10, height: 10, canBreak: true});
+var breakPlatform324 = new Platform({x: 50, y: 155, width: 10, height: 10, canBreak: true});
+var killPlatform31 = new Platform({ x: 120, y: 50, width: 10, height: 20, canKill: true});
+var killPlatform32 = new Platform({ x: -1, y: 205, width: 61, height: 10, canKill: true});
+//var killPlatform33 = new Platform({ x: 299, y: 340, width: 20, height: 20});
+//var killPlatform34 = new Platform({ x: 116, y: 340, width: 20, height: 20});
+//var killPlatform35 = new Platform({ x: 82, y: 160, width: 353, height: 20});
+//var killPlatform36 = new Platform({ x: 0, y: 36, width: 353, height: 20});
 
 var platforms0 = [];
 var platforms1 = [Platform1, Platform2, Platform3, Platform4, Platform5, Platform6, Platform7, Platform8, Platform9, Platform10, Platform15, Platform11, Platform12, Platform13, Platform14, breakPlatform1, breakPlatform2, breakPlatform3];
 
-var platforms2 = [Platform21, Platform22, Platform23, Platform24, Platform25, Platform26, Platform27, Platform28, Platform29, Platform210, Platform211, Platform212, Platform213, breakPlatform21, breakPlatform22, breakPlatform23, breakPlatform24, killPlatform21, killPlatform22];
+var platforms2 = [Platform21, Platform22, Platform23, Platform24, Platform25, Platform26, Platform27, Platform28, Platform29, Platform210, Platform211, Platform212, Platform213, Platform214, breakPlatform21, breakPlatform22, breakPlatform23, breakPlatform24, killPlatform21, killPlatform22];
 
-var platforms3 = [Platform31, Platform32, Platform33, Platform34, Platform35, Platform36, Platform37, Platform38, Platform39, Platform310, Platform311, killPlatform31, killPlatform32, killPlatform33, killPlatform34, killPlatform35, killPlatform36];
+var platforms3 = [Platform31, Platform32, Platform33, Platform34, Platform35, Platform36, Platform37, Platform38, Platform39, Platform310, Platform311, Platform313, Platform314, Platform315, Platform316, Platform317, Platform318, Platform319, Platform312, breakPlatform31, breakPlatform32, breakPlatform33, breakPlatform34, breakPlatform35, breakPlatform36, breakPlatform37, breakPlatform38, breakPlatform39, breakPlatform310, breakPlatform311, breakPlatform312, breakPlatform313, breakPlatform314, breakPlatform315, breakPlatform316, breakPlatform317, breakPlatform318, breakPlatform319, breakPlatform320, breakPlatform321, breakPlatform322, breakPlatform323, breakPlatform324, killPlatform31, killPlatform32];
 
 var ladder1 = new Ladder({x: 60, y: 295});
 var ladder2 = new Ladder({x: 250, y: 235});
@@ -240,11 +273,22 @@ var ladder3 = new Ladder({x: 250, y: 157});
 var ladder21 = new Ladder({x: 160, y: 315});
 
 var ladder31 = new Ladder({x: 10, y: 315});
+var ladder32 = new Ladder({x: 170, y: 80});
+var ladder33 = new Ladder({x: 170, y: 150});
+var ladder34 = new Ladder({x: 330, y: 80});
+var ladder35 = new Ladder({x: 370, y: 150});
+var ladder36 = new Ladder({x: 290, y: 150});
+var ladder37 = new Ladder({x: 290, y: 80});
+var ladder38 = new Ladder({x: 70, y: 240});
+var ladder39 = new Ladder({x: 70, y: 170});
+var ladder310 = new Ladder({x: 70, y: 100});
+var ladder311 = new Ladder({x: 290, y: 240});
+var ladder312 = new Ladder({x: 290, y: 220});
 
 var ladders0 = [];
 var ladders1 = [ladder1, ladder2, ladder3];
 var ladders2 = [ladder21];
-var ladders3 = [ladder31];
+var ladders3 = [ladder31, ladder32, ladder33, ladder34, ladder35, ladder36, ladder37, ladder38, ladder39, ladder310, ladder311, ladder312];
 
 var Money1 = new Money({x: 210, y: 375});
 var Money2 = new Money({x: 20, y: 210});
@@ -254,9 +298,14 @@ var Money21 = new Money({x: 290, y: 321});
 var Money22 = new Money({x: 25, y: 80});
 var Money23 = new Money({x: 385, y: 120});
 
+var Money31 = new Money({x: 385, y: 100});
+var Money32 = new Money({x: 10, y: 80});
+var Money33 = new Money({x: 385, y: 240});
+
 var moneys0 = [];
 var moneys1 = [Money1, Money2, Money3];
 var moneys2 = [Money21, Money22, Money23]
+var moneys3 = [Money31, Money32, Money33]
 
 var lever1 = new lever({leverX: 10, leverY: 283, gateX: 50, gateY: 0, gateWidth: 10, gateHeight: 100, color: "Blue", timeOut: 0});
 var lever2 = new lever({leverX: 380, leverY: 148, gateX: 220, gateY: 300, gateWidth: 10, gateHeight: 60, color: "Red", timeOut: 5000});
@@ -266,19 +315,29 @@ var lever22 = new lever({leverX: 310, leverY: 98, gateX: 300, gateY: 210, gateWi
 var lever23 = new lever({leverX: 280, leverY: 98, gateX: 140, gateY: -1, gateWidth: 10, gateHeight: 221, color: "Yellow"});
 var lever24 = new lever({leverX: 10, leverY: 303, gateX: 80, gateY: 315, gateWidth: 10, gateHeight: 221, color: "Green", timeOut: 5000});
 
+var lever31 = new lever({leverX: 130, leverY: 138, gateX: 60, gateY: 0, gateWidth: 10, gateHeight: 220, color: "Red"});
+var lever32 = new lever({leverX: 230, leverY: 68, gateX: 360, gateY: 50, gateWidth: 10, gateHeight: 20, color: "Blue"});
+var lever33 = new lever({leverX: 230, leverY: 138, gateX: 170, gateY: 70, gateWidth: 50, gateHeight: 10, color: "Yellow", timeOut: 2000});
+
 var levers0 = [];
 var levers1 = [lever1, lever2];
 var levers2 = [lever21, lever22, lever23, lever24];
+var levers3 = [lever31, lever32, lever33];
 
 var box1 = new box({x: 340, y: 200, width: 40, height: 40});
 
+var box31 = new box({x: 150, y: 50, width: 20, height: 20});
+var box32 = new box({x: 370, y: 60, width: 20, height: 20});
+var box33 = new box({x: 10, y: 175, width: 20, height: 20});
+
 var boxes0 = [];
 var boxes2 = [box1];
+var boxes3 = [box31, box32, box33];
 
 var homeScreen = new Level({platforms: platforms0, ladders: ladders0, moneys: moneys0, boxes: boxes0, levers: levers0});
 var level1 = new Level({platforms: platforms1, ladders: ladders1, moneys: moneys1, boxes: boxes0, levers: levers1, blueX: 370, blueY: 380, redX: 20, redY: 100, yellowX: 20, yellowY: 380, greenX: 340, greenY: 140, endX: 240, endY: 330, endWidth: 30, endHeight: 35});
 var level2 = new Level({platforms: platforms2, ladders: ladders2, moneys: moneys2, boxes: boxes2, levers: levers2, blueX: 370, blueY: 380, redX: 40, redY: 300, yellowX: 185, yellowY: 50, greenX: 360, greenY: 300, endX: 20, endY: 350, endWidth: 30, endHeight: 35});
-var level3 = new Level({platforms: platforms3, ladders: ladders3, moneys: moneys0, boxes: boxes0, levers: levers0, blueX: 20, blueY: 380});
+var level3 = new Level({platforms: platforms3, ladders: ladders3, moneys: moneys3, boxes: boxes3, levers: levers3, blueX: 50, blueY: 380, redX: 70, redY: 380, yellowX: 90, yellowY: 380, greenX: 110, greenY: 380});
 var endScreen = new Level({platforms: platforms0, ladders: ladders0, moneys: moneys0, boxes: boxes0, levers: levers0});
 var controls = new Level({platforms: platforms0, ladders: ladders0, moneys: moneys0, boxes: boxes0, levers: levers0});
 var stages = new Level({platforms: platforms0, ladders: ladders0, moneys: moneys0, boxes: boxes0, levers: levers0});
@@ -341,6 +400,15 @@ Level.drawTextAndEnd = function () {
     fill(128, 96, 74);
     rect(levels[currentLevel].endX, levels[currentLevel].endY, levels[currentLevel].endWidth, levels[currentLevel].endHeight);
 
+    if (currentLevel > 0) {
+        textSize(16 * mult);
+        fill(0, 0, 0);
+        text(win + "/3", 400, 60, 100, 100);
+        fill(255, 255, 0);
+        ellipse(375, 70, 40, 40);
+        fill(0, 0, 0);
+        text("$", 365, 60, 100, 100);
+    }
     if (currentLevel === 0) {
         textSize(32 * mult);
         fill(0, 0, 0);
@@ -357,10 +425,12 @@ Level.drawTextAndEnd = function () {
     }
     if (currentLevel === 2) {
         fill(0, 0, 0);
+        textSize(12 * mult);
         text("Level 2: Moving Platforms", 2 * mult, 288 * mult, 100 * mult, 100 * mult);
     }
     if (currentLevel === 3) {
         fill(0, 0, 0);
+        textSize(12 * mult);
         text("Level 3: The Tower", 4 * mult, 298 * mult, 87 * mult, 100 * mult);
     }
     if (currentLevel === 4) {
@@ -1250,7 +1320,6 @@ draw = function () {
     
     }
     background(199, 199, 199);
-    Level.drawTextAndEnd();
     
     for (var i = 0; i < levers.length; i++) {
         levers[i].draw();
@@ -1261,6 +1330,7 @@ draw = function () {
     for (var i = 0; i < platforms.length; i++) {
         platforms[i].draw();
     }
+    Level.drawTextAndEnd();
     for (var i = 0; i < ladders.length; i++) {
         ladders[i].draw();
     }
