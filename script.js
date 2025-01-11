@@ -9,7 +9,14 @@ var sketchProc = function (processingInstance) {
         smooth();
 
         // END BOILER PLATE
-
+//let img;
+var player1Images = [];
+setup = function() {
+    player1Images.push(loadImage('Player 1-1.png'));
+    player1Images.push(loadImage('Player 1-2.png'));
+    player1Images.push(loadImage('Player 1-3.png'));
+    player1Images.push(loadImage('Player 1-4.png'));
+}
 var mult = 2;
 var win = 0;
 var gameIsPaused = false;
@@ -37,6 +44,7 @@ var Ball = function(config) {
     this.holdingCountdown = 0;
     this.isMovingRight = false;
     this.isMovingLeft = false;
+    this.currentImage = 0;
 };
 Ball.prototype = Object.create(thingsWithPhysics.prototype);
 
@@ -53,6 +61,7 @@ var Level = function(config) {
     this.moneys = config.moneys;
     this.boxes = config.boxes;
     this.levers = config.levers;
+    this.boxCheckers = config.boxCheckers;
     this.blueX = config.blueX * mult || 1000;
     this.blueY = config.blueY * mult || 1000;
     this.redX = config.redX * mult || 1000;
@@ -77,6 +86,17 @@ var lever = function(config) {
     this.timeOut = config.timeOut || 0;
     this.expirationTime = 0;
     this.color = config.color;
+}
+var BoxChecker = function(config) {
+    this.x = config.x * mult;
+    this.y = config.y * mult;
+    this.width = config.width * mult;
+    this.height = config.height * mult;
+    this.gateX = config.gateX * mult;
+    this.gateY = config.gateY * mult;
+    this.gateWidth = config.gateWidth * mult;
+    this.gateHeight = config.gateHeight * mult;
+    this.activated = false;
 }
 var Button = function (config) {
     this.buttonX = config.buttonX * mult;
@@ -107,7 +127,7 @@ var controlButton = new Button({ buttonX: 127, buttonY: 147, buttonWidth: 130, b
 
 var levelButton = new Button({ buttonX: 127, buttonY: 199, buttonWidth: 130, buttonHeight: 40, color1: 4, color2: 255, color3: 0, isLevelButton: true });
 
-var backButton = new Button({ buttonX: 375, buttonY: 20, buttonWidth: 20, buttonHeight: 20, color1: 4, color2: 255, color3: 0, isBackButton: true });
+var backButton = new Button({ buttonX: 10, buttonY: 340, buttonWidth: 80, buttonHeight: 40, color1: 4, color2: 255, color3: 0, isBackButton: true });
 
 var pauseButton = new Button({ buttonX: 375, buttonY: 20, buttonWidth: 20, buttonHeight: 20, color1: 4, color2: 255, color3: 0, isPauseButton: true });
 
@@ -226,8 +246,8 @@ var Platform315 = new Platform({ x: 280, y: 80, width: 10, height: 145});
 var Platform316 = new Platform({ x: -1, y: 215, width: 70, height: 10});
 var Platform317 = new Platform({ x: 360, y: 70, width: 20, height: 10});
 var Platform318 = new Platform({ x: 360, y: 150, width: 10, height: 55});
-var Platform319 = new Platform({ x: 320, y: 225, width: 50, height: 69});
-var Platform312 = new Platform({x: -1, y: 0, width: 402, height: 49});
+var Platform319 = new Platform({ x: 320, y: 225, width: 100, height: 69});
+var Platform312 = new Platform({x: -1, y: 0, width: 402, height: 50});
 var breakPlatform31 = new Platform({x: 150, y: 60, width: 10, height: 10, canBreak: true});
 var breakPlatform32 = new Platform({x: 360, y: 205, width: 10, height: 10, canBreak: true});
 var breakPlatform33 = new Platform({x: 0, y: 185, width: 10, height: 10, canBreak: true});
@@ -254,10 +274,6 @@ var breakPlatform323 = new Platform({x: 40, y: 155, width: 10, height: 10, canBr
 var breakPlatform324 = new Platform({x: 50, y: 155, width: 10, height: 10, canBreak: true});
 var killPlatform31 = new Platform({ x: 120, y: 50, width: 10, height: 20, canKill: true});
 var killPlatform32 = new Platform({ x: -1, y: 205, width: 61, height: 10, canKill: true});
-//var killPlatform33 = new Platform({ x: 299, y: 340, width: 20, height: 20});
-//var killPlatform34 = new Platform({ x: 116, y: 340, width: 20, height: 20});
-//var killPlatform35 = new Platform({ x: 82, y: 160, width: 353, height: 20});
-//var killPlatform36 = new Platform({ x: 0, y: 36, width: 353, height: 20});
 
 var platforms0 = [];
 var platforms1 = [Platform1, Platform2, Platform3, Platform4, Platform5, Platform6, Platform7, Platform8, Platform9, Platform10, Platform15, Platform11, Platform12, Platform13, Platform14, breakPlatform1, breakPlatform2, breakPlatform3];
@@ -300,7 +316,7 @@ var Money23 = new Money({x: 385, y: 120});
 
 var Money31 = new Money({x: 385, y: 100});
 var Money32 = new Money({x: 10, y: 80});
-var Money33 = new Money({x: 385, y: 240});
+var Money33 = new Money({x: 385, y: 300});
 
 var moneys0 = [];
 var moneys1 = [Money1, Money2, Money3];
@@ -334,16 +350,24 @@ var boxes0 = [];
 var boxes2 = [box1];
 var boxes3 = [box31, box32, box33];
 
-var homeScreen = new Level({platforms: platforms0, ladders: ladders0, moneys: moneys0, boxes: boxes0, levers: levers0});
-var level1 = new Level({platforms: platforms1, ladders: ladders1, moneys: moneys1, boxes: boxes0, levers: levers1, blueX: 370, blueY: 380, redX: 20, redY: 100, yellowX: 20, yellowY: 380, greenX: 340, greenY: 140, endX: 240, endY: 330, endWidth: 30, endHeight: 35});
-var level2 = new Level({platforms: platforms2, ladders: ladders2, moneys: moneys2, boxes: boxes2, levers: levers2, blueX: 370, blueY: 380, redX: 40, redY: 300, yellowX: 185, yellowY: 50, greenX: 360, greenY: 300, endX: 20, endY: 350, endWidth: 30, endHeight: 35});
-var level3 = new Level({platforms: platforms3, ladders: ladders3, moneys: moneys3, boxes: boxes3, levers: levers3, blueX: 50, blueY: 380, redX: 70, redY: 380, yellowX: 90, yellowY: 380, greenX: 110, greenY: 380});
+var boxChecker1 = new BoxChecker({x: 250, y: 370, width: 40, height: 10, gateX: 340, gateY: 310, gateWidth: 10, gateHeight: 70});
+
+var boxCheckers = [boxChecker1];
+var boxCheckers0 = [];
+
+var homeScreen = new Level({platforms: platforms0, ladders: ladders0, moneys: moneys0, boxes: boxes0, levers: levers0, boxCheckers: boxCheckers0});
+var level1 = new Level({platforms: platforms1, ladders: ladders1, moneys: moneys1, boxes: boxes0, levers: levers1, boxCheckers: boxCheckers0, blueX: 370, blueY: 380, redX: 20, redY: 100, yellowX: 20, yellowY: 380, greenX: 340, greenY: 140, endX: 240, endY: 330, endWidth: 30, endHeight: 30});
+var level2 = new Level({platforms: platforms2, ladders: ladders2, moneys: moneys2, boxes: boxes2, levers: levers2, boxCheckers: boxCheckers0, blueX: 370, blueY: 380, redX: 40, redY: 300, yellowX: 185, yellowY: 50, greenX: 360, greenY: 300, endX: 20, endY: 350, endWidth: 30, endHeight: 30});
+var level3 = new Level({platforms: platforms3, ladders: ladders3, moneys: moneys3, boxes: boxes3, levers: levers3, boxCheckers: boxCheckers, blueX: 50, blueY: 380, redX: 70, redY: 380, yellowX: 90, yellowY: 380, greenX: 110, greenY: 380, endX: 360, endY: 350, endWidth: 30, endHeight: 30});
 var endScreen = new Level({platforms: platforms0, ladders: ladders0, moneys: moneys0, boxes: boxes0, levers: levers0});
 var controls = new Level({platforms: platforms0, ladders: ladders0, moneys: moneys0, boxes: boxes0, levers: levers0});
 var stages = new Level({platforms: platforms0, ladders: ladders0, moneys: moneys0, boxes: boxes0, levers: levers0});
 var levels = [homeScreen, level1, level2, level3, endScreen, controls, stages];
 var currentLevel = 0;
 
+var playerAspectRatio = 170/400;
+var playerHeight = 40;
+var playerWidth = playerHeight * playerAspectRatio;
 var blueBall = new Ball({x: levels[currentLevel].blueX, y: levels[currentLevel].blueY, name: "Blue"});
 var redBall = new Ball({x: levels[currentLevel].redX, y: levels[currentLevel].redY, name: "Red"});
 var yellowBall = new Ball({x: levels[currentLevel].yellowX, y: levels[currentLevel].yellowY, name: "Yellow"});
@@ -366,6 +390,20 @@ lever.prototype.checkBall = function(ball) {
             return true;
         } else {
             return false;
+        }
+    }
+};
+
+BoxChecker.prototype.checkBox = function(boxes) {
+    var amountOfBoxes = 0;
+    for (i = 0; i < boxes.length; i++) {
+        if (boxes[i].x + boxes[i].width/2 > this.x && boxes[i].x + boxes[i].width/2 < this.x + this.width && boxes[i].y + boxes[i].width/2 > this.y && boxes[i].y + boxes[i].width/2 < this.y + this.height) {
+            amountOfBoxes += 1;
+            if (amountOfBoxes === 3) {
+                this.activated = true;
+            } else {
+                this.activated = false;
+            }
         }
     }
 };
@@ -400,7 +438,7 @@ Level.drawTextAndEnd = function () {
     fill(128, 96, 74);
     rect(levels[currentLevel].endX, levels[currentLevel].endY, levels[currentLevel].endWidth, levels[currentLevel].endHeight);
 
-    if (currentLevel > 0) {
+    if (currentLevel > 0 && currentLevel < 4) {
         textSize(16 * mult);
         fill(0, 0, 0);
         text(win + "/3", 400, 60, 100, 100);
@@ -418,27 +456,26 @@ Level.drawTextAndEnd = function () {
     }
     if (currentLevel === 1) {
         fill(0, 0, 0);
-        textSize(12 * mult * 1.1)
-        //text("Level 1: Teamwork", 8 * mult, 259 * mult, 114 * mult, 100 * mult);
-        //text("This Kills You!", 130 * mult, 292 * mult, 100 * mult, 100 * mult);
-        //text("Touch the Brown to Finish the Level", 170 * mult, 240 * mult, 211 * mult, 100 * mult);
+        textSize(6 * mult)
+        text("Hmmm...Looks like only one of the players can press these buttons.", 8 * mult, 250 * mult, 114 * mult, 100 * mult);
+        text("Breakable blocks such as these can be broken by only one of the players.", 200 * mult, 110 * mult, 100 * mult, 100 * mult);
+        text("Make sure to collect these coins. You can't finish the level without them!", 160 * mult, 210 * mult, 100 * mult, 100 * mult);
+        text("Looks like you can't jump. If only there was someone who could pick you up...", 62 * mult, 60 * mult, 100 * mult, 100 * mult);
     }
     if (currentLevel === 2) {
         fill(0, 0, 0);
-        textSize(12 * mult);
-        text("Level 2: Moving Platforms", 2 * mult, 288 * mult, 100 * mult, 100 * mult);
+        textSize(6 * mult);
+        text("Boxes like these can be moved by anyone.", 300 * mult, 150 * mult, 100 * mult, 100 * mult);
     }
     if (currentLevel === 3) {
         fill(0, 0, 0);
-        textSize(12 * mult);
-        text("Level 3: The Tower", 4 * mult, 298 * mult, 87 * mult, 100 * mult);
+        textSize(6 * mult);
+        text("This gate will open when three boxes are put into here.", 250 * mult, 350 * mult, 87 * mult, 100 * mult);
     }
     if (currentLevel === 4) {
         fill(0, 0, 0);
         textSize(40*mult);
         text("The End...For Now", 29 * mult, 125 * mult, 438 * mult, 100 * mult);
-        textSize(32*mult);
-        text("Restart",149*mult,344*mult,271*mult,100*mult);
         textSize(20*mult);
         text("More Levels Coming Soon!",76*mult,293*mult,271*mult,100*mult);
         textSize(12*mult);
@@ -480,8 +517,26 @@ Button.prototype.draw = function () {
         }
     }
     
+    if (this.isBackButton === true) {
+        if (currentLevel > 4) {
+            fill(this.color1, this.color2, this.color3);
+            rect(this.buttonX, this.buttonY, this.buttonWidth, this.buttonHeight);
+            fill(0, 0, 0);
+            textSize(32 * mult);
+            text("Back", 10 * mult, 350 * mult, 100 * mult, 100 * mult);
+            if (mouseX > this.buttonX && mouseX < this.buttonX + this.buttonWidth && mouseY > this.buttonY && mouseY < this.buttonY + this.buttonHeight) {
+                this.color1 = 37;
+                this.color2 = 130;
+            }
+            else {
+                this.color1 = 4;
+                this.color2 = 255;
+            }
+        }
+    }
+
     if (this.isPauseButton === true && gameIsPaused === false) {
-        if (currentLevel > 0) {
+        if (currentLevel > 0 && currentLevel < 4) {
             fill(this.color1, this.color2, this.color3);
             rect(this.buttonX, this.buttonY, this.buttonWidth, this.buttonHeight);
             fill(255, 255, 255);
@@ -499,9 +554,12 @@ Button.prototype.draw = function () {
     }
 
     if (this.isMainMenuButton === true) {
-        if (currentLevel === 5) {
+        if (currentLevel === 4) {
             fill(this.color1, this.color2, this.color3);
             rect(this.buttonX, this.buttonY, this.buttonWidth, this.buttonHeight);
+            textSize(32*mult);
+            fill(0, 0, 0);
+            text("Restart",149*mult,344*mult,271*mult,100*mult);
             if (mouseX > this.buttonX && mouseX < this.buttonX + this.buttonWidth && mouseY > this.buttonY && mouseY < this.buttonY + this.buttonHeight) {
                 this.color1 = 37;
                 this.color2 = 130;
@@ -607,7 +665,7 @@ Button.prototype.draw = function () {
     }
 };
 
-Button.prototype.applyMouse = function () {
+Button.prototype.applyMouse = function (money) {
     if (mouseX > this.buttonX && mouseX < this.buttonX + this.buttonWidth && mouseY > this.buttonY && mouseY < this.buttonY + this.buttonHeight) {
         if (this.isPlayButton === true) {
             if (currentLevel === 0) {
@@ -620,6 +678,9 @@ Button.prototype.applyMouse = function () {
                 yellowBall.y = levels[currentLevel].yellowY;
                 greenBall.x = levels[currentLevel].greenX;
                 greenBall.y = levels[currentLevel].greenY;
+
+                win = 0;
+                //money.drawn = true;
             }
         }
 
@@ -654,6 +715,12 @@ Button.prototype.applyMouse = function () {
         if (this.isMainMenuButton2 === true) {
             if (currentLevel > 0 && gameIsPaused === true) {
                 gameIsPaused = false;
+                currentLevel = 0;
+            }
+        }
+
+        if (this.isBackButton === true) {
+            if (currentLevel > 4) {
                 currentLevel = 0;
             }
         }
@@ -1192,10 +1259,21 @@ box.prototype.draw = function() {
         rect(this.x, this.y, this.width, this.height);
     }
 };
+BoxChecker.prototype.draw = function() {
+    fill(0, 0, 0);
+    rect(this.x, this.y, this.width, this.height);
+
+    if (this.activated === false) {
+        rect(this.gateX, this.gateY, this.gateWidth, this.gateHeight);
+    }
+}
 Ball.prototype.draw = function () {
     if (currentLevel > 0) {
         if (this.name === "Blue") {
-            fill(0, 102, 255);
+            //var imageNumber = floor(this.currentImage/10)
+            //image(player1Images[imageNumber], this.x, this.y, this.width, this.height);
+            //this.currentImage = (this.currentImage + 1) % (player1Images.length*10);
+            fill(0, 98, 255);
             ellipse(this.x + this.width/2, this.y + this.height/2, this.width, this.height);
         }
         if (this.name === "Red") {
@@ -1220,6 +1298,7 @@ draw = function () {
     var levers = level.levers;
     var ladders = level.ladders;
     var boxes = level.boxes;
+    var boxCheckers = level.boxCheckers;
     var onLadder = false;
     
     if (gameIsPaused === false) {
@@ -1266,6 +1345,14 @@ draw = function () {
             for (var b = 0; b < players.length; b++) {
                 if (levers[i].isPressed === false) {
                     players[b].applyIntersect3(levers[i]);
+                }
+            }
+        }
+
+        for (var i = 0; i < boxCheckers.length; i++) {
+            for (var b = 0; b < players.length; b++) {
+                if (boxCheckers[i].activated === false) {
+                    players[b].applyIntersect3(boxCheckers[i]);
                 }
             }
         }
@@ -1317,12 +1404,18 @@ draw = function () {
         for (var i = 0; i < platforms.length; i++) {
             platforms[i].applyMovement();
         }
-    
+        
+        for (var i = 0; i < boxCheckers.length; i++) {
+            boxCheckers[i].checkBox(boxes);
+        }
     }
     background(199, 199, 199);
     
     for (var i = 0; i < levers.length; i++) {
         levers[i].draw();
+    }
+    for (var i = 0; i < boxCheckers.length; i++) {
+        boxCheckers[i].draw(boxes);
     }
     for (var b = 0; b < players.length; b++) {
         players[b].draw();
@@ -1352,7 +1445,9 @@ draw = function () {
 
 mousePressed = function () {
     for (var i = 0; i < buttons.length; i++) {
-        buttons[i].applyMouse();
+        //for (var b = 0; b < moneys.length; b++) {
+            buttons[i].applyMouse();
+        //}
     }
 };
 
